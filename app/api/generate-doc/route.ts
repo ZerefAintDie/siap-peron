@@ -8,30 +8,28 @@ import Docxtemplater from 'docxtemplater';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { type, data } = body; // type: 'kelahiran' / 'kematian', data: object record dari sheet
+    const { type, data } = body;
 
     if (!type || !data) {
       return NextResponse.json({ error: 'Data dan tipe surat diperlukan' }, { status: 400 });
     }
 
-    // Tentukan file template berdasarkan jenis surat
     const templateFileName = type === 'kelahiran' ? 'template_kelahiran.docx' : 'template_kematian.docx';
     const templatePath = path.join(process.cwd(), 'public', 'templates', templateFileName);
 
     const content = fs.readFileSync(templatePath, 'binary');
     const zip = new PizZip(content);
+    
     const doc = new Docxtemplater(zip, {
       paragraphLoop: true,
       linebreaks: true,
       delimiters: { start: '{{', end: '}}' },
-      parser: expressionParser,
+      parser: expressionParser as any, // Type casting untuk menghindari error TypeScript
       nullGetter() {
         return '-';
       }
     });
 
-    // Menggunakan nomor baris asli dari Google Sheets (RowIndex) sebagai nomor urut surat.
-    // Jika data['RowIndex'] bernilai 1, maka akan menjadi 001. Jika tidak ada, fallback ke 1.
     const rowIndex = Number(data['RowIndex']) || 1;
     const nomorUrut = String(rowIndex).padStart(3, '0');
 
@@ -39,10 +37,8 @@ export async function POST(request: Request) {
 
     if (type === 'kelahiran') {
       renderData = {
-        nomor_surat: nomorUrut, // Mengisi bagian tengah pada format 474.3/{{ nomor_surat }}/PRN di template
+        nomor_surat: nomorUrut,
         tanggal_sekarang: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-        
-        // Informasi Keluarga & Bayi
         nama_kepala_keluarga: data['Nama Lengkap Kepala Keluarga'] || '',
         nomor_kk: data['Nomor Kartu Keluarga (KK)'] || '',
         nama_bayi: data['Nama'] || '',
@@ -56,36 +52,26 @@ export async function POST(request: Request) {
         penolong_kelahiran: data['Penolong kelahiran'] || '',
         berat_bayi: data['Berat bayi'] || '',
         panjang_bayi: data['Panjang bayi'] || '',
-        
-        // Ibu
         nik_ibu: data['NIK Ibu'] || '',
         nama_ibu: data['Nama Lengkap Ibu'] || '',
         tanggal_lahir_ibu: data['Tanggal Lahir Ibu'] || '',
         pekerjaan_ibu: data['Pekerjaan Ibu'] || '',
         alamat_ibu: data['Alamat Ibu'] || '',
-        
-        // Ayah
         nik_ayah: data['NIK Ayah'] || '',
         nama_ayah: data['Nama Lengkap Ayah'] || '',
         tanggal_lahir_ayah: data['Tanggal Lahir Ayah'] || '',
         pekerjaan_ayah: data['Pekerjaan Ayah'] || '',
         alamat_ayah: data['Alamat Ayah'] || '',
-        
-        // Pelapor
         nik_pelapor: data['NIK Pelapor'] || '',
         nama_pelapor: data['Nama Lengkap Pelapor'] || '',
         tanggal_lahir_pelapor: data['Tanggal Lahir Pelapor'] || '',
         pekerjaan_pelapor: data['Pekerjaan Pelapor'] || '',
         alamat_pelapor: data['Alamat Pelapor'] || '',
-        
-        // Saksi 1
         nik_saksi_1: data['NIK Saksi 1'] || '',
         nama_saksi_1: data['Nama Lengkap Saksi 1'] || '',
         tanggal_lahir_saksi_1: data['Tanggal Lahir Saksi 1'] || '',
         pekerjaan_saksi_1: data['Pekerjaan Saksi 1'] || '',
         alamat_saksi_1: data['Alamat Saksi 1'] || '',
-        
-        // Saksi 2
         nik_saksi_2: data['NIK Saksi 2'] || '',
         nama_saksi_2: data['Nama Lengkap Saksi 2'] || '',
         tanggal_lahir_saksi_2: data['Tanggal Lahir Saksi 2'] || '',
@@ -94,10 +80,8 @@ export async function POST(request: Request) {
       };
     } else if (type === 'kematian') {
       renderData = {
-        nomor_surat: nomorUrut, // Mengisi bagian tengah pada format 474.3/{{ nomor_surat }}/PRN di template
+        nomor_surat: nomorUrut,
         tanggal_sekarang: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-        
-        // Informasi Keluarga & Jenazah
         nama_kepala_keluarga: data['Nama Lengkap Kepala Keluarga'] || '',
         nomor_kk: data['Nomor Kartu Keluarga (KK)'] || '',
         nik_jenazah: data['NIK Jenazah'] || '',
@@ -114,36 +98,26 @@ export async function POST(request: Request) {
         sebab_kematian: data['Sebab Kematian'] || '',
         tempat_kematian: data['Tempat Kematian'] || '',
         pemberi_keterangan: data['Pemberi Keterangan'] || '',
-        
-        // Ibu
         nik_ibu: data['NIK Ibu'] || '',
         nama_ibu: data['Nama Lengkap Ibu'] || '',
         tanggal_lahir_ibu: data['Tanggal Lahir Ibu'] || '',
         pekerjaan_ibu: data['Pekerjaan Ibu'] || '',
         alamat_ibu: data['Alamat Ibu'] || '',
-        
-        // Ayah
         nik_ayah: data['NIK Ayah'] || '',
         nama_ayah: data['Nama Lengkap Ayah'] || '',
         tanggal_lahir_ayah: data['Tanggal Lahir Ayah'] || '',
         pekerjaan_ayah: data['Pekerjaan Ayah'] || '',
         alamat_ayah: data['Alamat Ayah'] || '',
-        
-        // Pelapor
         nik_pelapor: data['NIK Pelapor'] || '',
         nama_pelapor: data['Nama Lengkap Pelapor'] || '',
         tanggal_lahir_pelapor: data['Tanggal Lahir Pelapor'] || '',
         pekerjaan_pelapor: data['Pekerjaan Pelapor'] || '',
         alamat_pelapor: data['Alamat Pelapor'] || '',
-        
-        // Saksi 1
         nik_saksi_1: data['NIK Saksi 1'] || '',
         nama_saksi_1: data['Nama Lengkap Saksi 1'] || '',
         tanggal_lahir_saksi_1: data['Tanggal Lahir Saksi 1'] || '',
         pekerjaan_saksi_1: data['Pekerjaan Saksi 1'] || '',
         alamat_saksi_1: data['Alamat Saksi 1'] || '',
-        
-        // Saksi 2
         nik_saksi_2: data['NIK Saksi 2'] || '',
         nama_saksi_2: data['Nama Lengkap Saksi 2'] || '',
         tanggal_lahir_saksi_2: data['Tanggal Lahir Saksi 2'] || '',
@@ -159,11 +133,14 @@ export async function POST(request: Request) {
       compression: 'DEFLATE',
     });
 
+    // Ubah Buffer ke Uint8Array agar kompatibel dengan NextResponse Next.js terbaru
+    const uint8Array = new Uint8Array(buf);
+
     const fileName = type === 'kelahiran' 
       ? `Surat_Kelahiran_${renderData.nama_bayi || 'Draft'}.docx` 
       : `Surat_Kematian_${renderData.nama_jenazah || 'Draft'}.docx`;
 
-    return new NextResponse(buf, {
+    return new NextResponse(uint8Array, {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
