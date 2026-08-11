@@ -1,77 +1,143 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { IconBaby, IconDocument } from '@/components/SharedUI'
 
 export default function HomeView() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(160deg, #eff6ff 0%, #f8fafc 50%, #f5f3ff 100%)' }}>
-      <header className="px-4 sm:px-8 py-5 flex items-center gap-3 border-b border-slate-200/60 bg-white/70 backdrop-blur-sm">
-        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-        </div>
-        <div>
-          <p className="font-bold text-slate-800 leading-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-            SIAP
-          </p>
-          <p className="text-xs text-slate-500">Sistem Informasi Administrasi Peron</p>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col bg-[#F4F6F9]">
+      
+      {/* BAGIAN ATAS (Background Biru Tua) */}
+      <section className="relative w-full bg-[#1A314C] pt-6 pb-28 px-4 sm:px-8">
+        
+        {/* Top Navbar / Header */}
+        <div className="max-w-6xl mx-auto flex items-center justify-between mb-12">
+          {/* Logo & Judul Kiri */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 overflow-hidden bg-white/10 flex items-center justify-center shadow-md relative">
+              <Image 
+                src="/logo_kendal.png" 
+                alt="Logo Pesat Peron" 
+                fill 
+                className="object-contain p-1"
+              />
+            </div>
+            <div>
+              <h2 className="text-white font-bold text-base leading-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                Pesat Peron
+              </h2>
+              <p className="text-white/60 text-xs">Pengajuan Surat Desa Peron</p>
+            </div>
+          </div>
 
-      <main className="flex-1 px-4 sm:px-8 py-10 max-w-3xl mx-auto w-full">
-        <div className="text-center mb-10">
-          <span className="inline-block text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
-            Pemerintah Desa Peron
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-3" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-            Layanan Surat Administrasi
+          {/* Badge Wilayah Kanan */}
+          <div className="hidden sm:flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-white/90 text-xs bg-white/5 backdrop-blur-sm">
+            <svg className="w-3.5 h-3.5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Desa Peron, Kecamatan Sukorejo, Kabupaten Kendal
+          </div>
+        </div>
+
+        {/* Hero Text */}
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-white text-xs font-semibold tracking-[0.2em] uppercase mb-3">
+            SELAMAT DATANG DI
+          </p>
+          <h1
+            className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight"
+            style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+          >
+            Pesat Peron
           </h1>
-          <p className="text-slate-500 text-sm sm:text-base max-w-md mx-auto">
-            Melayani pencatatan data kelahiran dan kematian, serta cetak surat kelahiran dan kematian secara otomatis.
+          <div className="flex items-center justify-center gap-2 mt-3 font-medium text-amber-400 text-sm sm:text-base tracking-wide">
+            <span className='items-center justify-center tracking-wider'>PENGAJUAN SURAT DESA PERON</span>
+          </div>
+          <p className="text-white/70 text-xs sm:text-sm mt-3 max-w-lg mx-auto">
+            Layanan pengajuan surat keterangan kelahiran dan kematian secara online, cepat dan mudah.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* BAGIAN UTAMA / KARTU LAYANAN */}
+      <main className="flex-1 px-4 sm:px-8 -mt-16 relative z-10 pb-16 max-w-4xl mx-auto w-full">
+        <p className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider mb-6">
+          Layanan Kami
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          
+          {/* Kartu Surat Kelahiran */}
           <button
             onClick={() => router.push('/kelahiran')}
-            className="group flex items-center gap-4 bg-white border border-slate-200 hover:border-blue-300 hover:shadow-md rounded-2xl p-5 text-left transition-all min-h-[80px]"
+            className="group bg-white rounded-2xl p-6 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-1 transition-all text-left flex items-center justify-between border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform text-white">
-              <IconBaby />
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center text-white shadow-md shadow-blue-500/30 shrink-0">
+                <span className="[&>svg]:w-7 [&>svg]:h-7">
+                  <IconBaby />
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-base" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Surat Kelahiran
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Cari, unduh, dan tambahkan data pada surat kelahiran
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="font-bold text-slate-800" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Surat Kelahiran</p>
-              <p className="text-xs text-slate-500 mt-0.5">Cari &amp; unduh surat keterangan kelahiran</p>
+            
+            <div className="w-8 h-8 rounded-full bg-blue-50 group-hover:bg-blue-500 flex items-center justify-center text-blue-600 group-hover:text-white transition-colors shrink-0 ml-3">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-            <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
 
+          {/* Kartu Surat Kematian */}
           <button
             onClick={() => router.push('/kematian')}
-            className="group flex items-center gap-4 bg-white border border-slate-200 hover:border-orange-300 hover:shadow-md rounded-2xl p-5 text-left transition-all min-h-[80px]"
+            className="group bg-white rounded-2xl p-6 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-1 transition-all text-left flex items-center justify-between border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform text-white">
-              <IconDocument />
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-amber-500 flex items-center justify-center text-white shadow-md shadow-amber-500/30 shrink-0">
+                <span className="[&>svg]:w-7 [&>svg]:h-7">
+                  <IconDocument />
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-base" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Surat Kematian
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Cari, unduh, dan tambahkan data pada surat kematian
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="font-bold text-slate-800" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Surat Kematian</p>
-              <p className="text-xs text-slate-500 mt-0.5">Cari &amp; unduh surat keterangan kematian</p>
+            
+            <div className="w-8 h-8 rounded-full bg-amber-50 group-hover:bg-amber-500 flex items-center justify-center text-amber-600 group-hover:text-white transition-colors shrink-0 ml-3">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-            <svg className="w-4 h-4 text-slate-400 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
+
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-8">
-          Data bersumber dari Google Sheets · Terintegrasi Google Forms
-        </p>
+        {/* Footer Info Box */}
+        <div className="mt-8 bg-white border border-slate-200/80 rounded-xl py-3 px-5 text-center shadow-sm flex items-center justify-center gap-2">
+          <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <p className="text-xs text-slate-600">
+            Data pengajuan tersimpan secara aman melalui <strong className="text-slate-800 font-semibold">Google Sheets</strong> dan formulir terhubung dengan <strong className="text-slate-800 font-semibold">Google Forms</strong>.
+          </p>
+        </div>
       </main>
     </div>
   )

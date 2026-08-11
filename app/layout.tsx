@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SIAP - Sistem Informasi Administrasi Peron",
-  description: "Sistem informasi administrasi Desa Peron, SUkorejo, Kendal.",
+  title: "PESAT - Pengajuan Surat Desa Peron",
+  description: "Sistem pengajuan surat Desa Peron, Sukorejo, Kendal.",
   icons: {
     icon: "/logo_kendal.png",
   }
