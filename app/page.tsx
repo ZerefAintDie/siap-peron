@@ -21,7 +21,8 @@ export default function HomeView() {
               <Image 
                 src="/logo_kendal.png" 
                 alt="Logo Pesat Peron" 
-                fill 
+                fill
+                sizes="40px"
                 className="object-contain p-1"
               />
             </div>
@@ -137,6 +138,22 @@ export default function HomeView() {
           <p className="text-xs text-slate-600">
             Data pengajuan tersimpan secara aman melalui <strong className="text-slate-800 font-semibold">Google Sheets</strong> dan formulir terhubung dengan <strong className="text-slate-800 font-semibold">Google Forms</strong>.
           </p>
+        </div>
+        
+        {/* All rights reserved */}
+        {/* Logo unnes dan teks */}
+        <div className="mt-8 flex items-center justify-center gap-2 text-slate-500 text-xs">
+          {/* Bungkus dengan div yang memiliki ukuran pasti (w-5 h-5 untuk 20px) */}
+          <div className="relative w-5 h-5 shrink-0">
+            <Image 
+              src="/logo_unnes.png" 
+              alt="Logo UNNES" 
+              fill
+              sizes="20px"
+              className="object-contain"
+            />
+          </div>
+          <span>© 2026 Universitas Negeri Semarang. All rights reserved.</span>
         </div>
       </main>
     </div>
