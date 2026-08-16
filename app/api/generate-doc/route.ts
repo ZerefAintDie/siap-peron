@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Data dan tipe surat diperlukan' }, { status: 400 });
     }
 
-    const templateFileName = type === 'kelahiran' ? 'template_kelahiran.docx' : 'template_kematian.docx';
+    const templateFileName = type === 'kelahiran' ? 'template_kelahiran1.docx' : 'template_kematian1.docx';
     const templatePath = path.join(process.cwd(), 'public', 'templates', templateFileName);
 
     const content = fs.readFileSync(templatePath, 'binary');
